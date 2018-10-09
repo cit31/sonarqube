@@ -88,9 +88,10 @@ fi
 
 
 ## Downloading SonarQube 
-VER=$(curl -s https://sonarsource.bintray.com/Distribution/sonarqube/  | tail -n 10 | awk -F '[<,>]' '{print $5}' | grep zip$ |tail -1)
-URL="https://sonarsource.bintray.com/Distribution/sonarqube/$VER"
-TFILE="/opt/$VER"
+#VER=$(curl -s https://sonarsource.bintray.com/Distribution/sonarqube/  | tail -n 10 | awk -F '[<,>]' '{print $5}' | grep zip$ |tail -1)
+#URL="https://sonarsource.bintray.com/Distribution/sonarqube/$VER"
+URL=$(curl https://www.sonarqube.org/downloads/ | grep zip | grep dl_page | grep btn-primary | tail -1 | awk -F \" '{print $2}')
+TFILE="/opt/$(echo $URL |awk -F / '{print $NF}')"
 TDIR=$(echo $TFILE|sed -e 's/.zip//')
 rm -rf /opt/sonarqube
 wget $URL -O $TFILE &>/dev/null
